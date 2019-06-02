@@ -1,0 +1,56 @@
+<!doctype html public "-//w3c//dtd html 4.0 transitional//en">
+<html>
+ <head>
+  <title>JS 获取图片相对坐标 </title>
+  <meta name="generator" content="editplus">
+  <meta name="author" content="">
+  <meta name="keywords" content="">
+  <meta name="description" content="">
+  <style>
+ #area{width:350px;height:350px;border:3px solid #000;padding:20px  0 0 20px;}
+ #area img{border:none;cursor:pointer;}
+</style>
+ </head>
+ <body>
+ <h3>通过JS获取图片的相对坐标位置 示例</h3>
+<div id="area" onclick="getClickPos(event);">
+ <img id='imageID'   src="test.jpg" usemap="#Map">
+</div>
+ </body>
+</html>
+<script>
+function getClickPos(e){
+    var xPage = (navigator.appName == 'Netscape')? e.pageX : event.x+document.body.scrollLeft;
+    var yPage = (navigator.appName == 'Netscape')? e.pageY : event.y+document.body.scrollTop;
+    identifyImage = document.getElementById("imageID");
+    img_x = locationLeft(identifyImage);
+    img_y = locationTop(identifyImage);
+    var xPos = xPage-img_x;
+    var yPos = yPage-img_y;
+    alert('X : ' + xPos + '\n' + 'Y : ' + yPos);
+}
+
+//find the screen location of an element
+function locationLeft(element){
+    offsetTotal = element.offsetLeft;
+    scrollTotal = 0; //element.scrollLeft but we dont want to deal with scrolling - already in page coords
+
+    if (element.tagName != "BODY"){
+       if (element.offsetParent != null)
+          return offsetTotal+scrollTotal+locationLeft(element.offsetParent);
+    }
+    return offsetTotal+scrollTotal;
+}
+
+//find the screen location of an element
+function locationTop(element){
+    offsetTotal = element.offsetTop;
+    scrollTotal = 0; //element.scrollTop but we dont want to deal with scrolling - already in page coords
+
+    if (element.tagName != "BODY"){
+       if (element.offsetParent != null)
+          return offsetTotal+scrollTotal+locationTop(element.offsetParent);
+    }
+    return offsetTotal+scrollTotal;
+}
+</script>
